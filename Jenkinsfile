@@ -98,7 +98,7 @@ pipeline{
             steps{
                 sh """
                 docker rmi rameshkumarverma/javaapp:latest
-                // docker rmi ${hubUser}/${project} ${hubUser}/${project}:latest
+                docker images
                 """
             }
         }
