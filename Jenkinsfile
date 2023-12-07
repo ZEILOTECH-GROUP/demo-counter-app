@@ -68,6 +68,39 @@ pipeline{
                     }
                 }
             }
+        stage('Docker Image Build'){
+            steps{
+                 sh """
+                 docker image build -t rameshkumarverma/javaapp:latest . 
+                 docker images
+                 """
+            }
         }
-        
+        stage('Docker Image Scan: trivy '){
+            steps{
+                sh """   
+                 trivy image rameshkumarverma/javaapp:latest:latest > scan.txt
+                 cat scan.txt
+                 """
+            }
+        }
+        stage('Docker Image Push : DockerHub '){
+            steps{
+                 withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                     sh """
+                     docker login -u '${user}' -p '${pass}'
+                     docker image push rameshkumarverma/javaapp:latest:latest
+                     """
+                 }
+            }
+        }
+        stage('Docker Image Cleanup : DockerHub '){
+            steps{
+                sh """
+                docker rmi rameshkumarverma/javaapp:latest:latest
+                // docker rmi ${hubUser}/${project} ${hubUser}/${project}:latest
+                """
+            }
+        }
+    }
 }
