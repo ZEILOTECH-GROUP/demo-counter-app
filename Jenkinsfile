@@ -58,16 +58,16 @@ pipeline{
                     
                 }
             }
-            // stage('Quality Gate Status'){
+            stage('Quality Gate Status'){
                 
-            //     steps{
+                steps{
                     
-            //         script{
+                    script{
                         
-            //             waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-api'
-            //         }
-            //     }
-            // }
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-api'
+                    }
+                }
+            }
         stage('Docker Image Build'){
             steps{
                  sh """
