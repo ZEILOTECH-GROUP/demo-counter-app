@@ -79,7 +79,7 @@ pipeline{
         stage('Docker Image Scan: trivy '){
             steps{
                 sh """   
-                 trivy image rameshkumarverma/javaapp:latest:latest > scan.txt
+                 trivy image rameshkumarverma/javaapp:latest > scan.txt
                  cat scan.txt
                  """
             }
