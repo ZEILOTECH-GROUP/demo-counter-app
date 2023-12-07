@@ -1,69 +1,46 @@
 pipeline{
-    
     agent any 
-    
     stages {
-        
         stage('Git Checkout'){
-            
             steps{
-                
-                script{
-                    
+                script{  
                     git branch: 'main', url: 'https://github.com/ZEILOTECH-GROUP/demo-counter-app.git'
                 }
             }
         }
         stage('UNIT testing'){
-            
             steps{
-                
-                script{
-                    
+                script{  
                     sh 'mvn test'
                 }
             }
         }
         stage('Integration testing'){
-            
             steps{
-                
-                script{
-                    
+                script{  
                     sh 'mvn verify -DskipUnitTests'
                 }
             }
         }
         stage('Maven build'){
-            
             steps{
-                
-                script{
-                    
+                script{  
                     sh 'mvn clean install'
                 }
             }
         }
         stage('Static code analysis'){
-            
             steps{
-                
-                script{
-                    
-                    withSonarQubeEnv(credentialsId: 'sonarqube-api') {
-                        
+                script{  
+                    withSonarQubeEnv(credentialsId: 'sonarqube-api') { 
                         sh 'mvn clean package sonar:sonar'
                     }
                    }
-                    
                 }
             }
             stage('Quality Gate Status'){
-                
                 steps{
-                    
-                    script{
-                        
+                    script{  
                         waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-api'
                     }
                 }
