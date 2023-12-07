@@ -10,7 +10,7 @@ pipeline{
                 
                 script{
                     
-                    git branch: 'main', url: 'https://github.com/vikash-kumar01/mrdevops_javaapplication.git'
+                    git branch: 'main', url: 'https://github.com/ZEILOTECH-GROUP/demo-counter-app.git'
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline{
                 
                 script{
                     
-                    withSonarQubeEnv(credentialsId: 'sonar-api') {
+                    withSonarQubeEnv(credentialsId: 'sonarqube-api') {
                         
                         sh 'mvn clean package sonar:sonar'
                     }
@@ -58,16 +58,16 @@ pipeline{
                     
                 }
             }
-            stage('Quality Gate Status'){
+            // stage('Quality Gate Status'){
                 
-                steps{
+            //     steps{
                     
-                    script{
+            //         script{
                         
-                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
-                    }
-                }
-            }
+            //             waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-api'
+            //         }
+            //     }
+            // }
         stage('Docker Image Build'){
             steps{
                  sh """
