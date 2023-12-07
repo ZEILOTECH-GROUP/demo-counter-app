@@ -89,7 +89,7 @@ pipeline{
                  withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'pass', usernameVariable: 'user')]) {
                      sh """
                      docker login -u '${user}' -p '${pass}'
-                     docker image push rameshkumarverma/javaapp:latest:latest
+                     docker image push rameshkumarverma/javaapp:latest
                      """
                  }
             }
@@ -97,7 +97,7 @@ pipeline{
         stage('Docker Image Cleanup : DockerHub '){
             steps{
                 sh """
-                docker rmi rameshkumarverma/javaapp:latest:latest
+                docker rmi rameshkumarverma/javaapp:latest
                 // docker rmi ${hubUser}/${project} ${hubUser}/${project}:latest
                 """
             }
